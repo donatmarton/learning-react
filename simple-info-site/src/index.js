@@ -1,11 +1,13 @@
 import React from "react"
 import ReactDOM from "react-dom"
+import "./index.css"
+import logo from "./logo.png"
 
 const root = document.getElementById('root');
 
 const contents = (
   <div>
-    <img src="./logo192.png" width="40px" alt="" />
+    <img src={logo} width="40px" alt="" />
     <h1>Fun facts about React</h1>
     <ul>
       <li>Was first released in 2013</li>
