@@ -2,11 +2,12 @@ import React from "react"
 import star from "../images/star.png"
 
 export default function Card(props)  {
-  const imagePath = `../images/${props.coverImg}`
+  const data = props.data;
+  const imagePath = `../images/${data.coverImg}`
   let stateText;
-  if (props.openSpots === 0) {
+  if (data.openSpots === 0) {
     stateText = "sold out";
-  } else if (props.location.toLowerCase() === "online") {
+  } else if (data.location.toLowerCase() === "online") {
     stateText = "online";
   }
   return (
@@ -15,12 +16,12 @@ export default function Card(props)  {
       <img className="card-image" src={imagePath} alt="" />
       <div className="card-stats">
         <img className="card-star" src={star} alt=""/>
-        <span>{props.stats.rating} </span>
-        <span className="gray">({props.stats.reviewCount}) • </span>
-        <span className="gray">{props.location}</span>
+        <span>{data.stats.rating} </span>
+        <span className="gray">({data.stats.reviewCount}) • </span>
+        <span className="gray">{data.location}</span>
       </div>
-      <p className="card-title">{props.title}</p>
-      <p className="card-price"><span className="emphasised">From ${props.price}</span> / person</p>
+      <p className="card-title">{data.title}</p>
+      <p className="card-price"><span className="emphasised">From ${data.price}</span> / person</p>
     </div>
   )
 }
