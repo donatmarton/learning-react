@@ -4,15 +4,21 @@ import Entry from "./components/Entry"
 import data from "./data"
 
 export default function App() {
-  const entries = data.map( (entry) => {
-    return <Entry />
+  const entries = data.map( (dataEntry) => {
+    return (
+      <Entry 
+        key={dataEntry.id}
+        {...dataEntry}
+      />)
   });
   return (
     <div className="app">
       <Navbar />
-      <section className="entries">
-        {entries}
-      </section>
+      <div className="content-container">
+        <section className="entries">
+          {entries}
+        </section>
+      </div>
     </div>
   )
 }

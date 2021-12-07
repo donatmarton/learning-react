@@ -4,6 +4,7 @@
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
+  color: #2B283A;
 }
 
 nav {
@@ -23,4 +24,63 @@ nav {
   margin: 0;
   font-weight: 500;
   letter-spacing: -0.075em;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+section {
+  padding: 28px 40px;
+  max-width: 600px;
+}
+
+.entry {
+  margin: 36px 0;
+  display: flex;
+  flex-direction: row;
+}
+.entry-image {
+  width: 146px;
+  height: 188px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+.entry-content {
+  padding: 10px 19px;
+}
+.location-container {
+  display: flex;
+  align-items: center;
+}
+.location-container * {
+  margin: 0;
+}
+.location {
+  padding-left: 4px;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+.maps-link {
+  padding-left: 14px;
+  color: #918E9B;
+  font-size: 0.9rem;
+}
+.title {
+  font-size: 2rem;
+  margin-top: 7px;
+  margin-bottom: 0;
+}
+.dates {
+  font-weight: bold;
+  margin-top: 13px;
+  margin-bottom: 0;
+  font-size: 0.9rem;
+}
+.description {
+  margin-top: 9px;
+  max-width: 330px;
+  font-size: 0.9rem;
 }
