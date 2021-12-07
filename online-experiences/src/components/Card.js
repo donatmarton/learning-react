@@ -3,9 +3,15 @@ import star from "../images/star.png"
 
 export default function Card(props)  {
   const imagePath = `../images/${props.coverImg}`
+  let stateText;
+  if (props.openSpots === 0) {
+    stateText = "sold out";
+  } else if (props.location.toLowerCase() === "online") {
+    stateText = "online";
+  }
   return (
     <div className="card">
-      <p className="card-state">sold out</p>
+      {stateText && <p className="card-state">{stateText}</p>}
       <img className="card-image" src={imagePath} alt="" />
       <div className="card-stats">
         <img className="card-star" src={star} alt=""/>
