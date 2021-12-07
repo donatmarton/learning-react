@@ -53,11 +53,17 @@ section:last-of-type {
   max-width: 320px;
 }
 
+.cards-container{
+  display: flex;
+  overflow-x: auto;
+  gap: 18px;
+}
 .card {
   width: 177px;
   height: 302px;
   font-size: 12px;
   position: relative;
+  flex: 0 0 auto;
 }
 .card-image {
   width: 100%;
