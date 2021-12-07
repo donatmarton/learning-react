@@ -8,6 +8,7 @@ function App() {
   const cards = data.map( (cardData) => {
     return (
       <Card 
+        key={cardData.id}
         title={cardData.title}
         coverImg={cardData.coverImg}
         price={cardData.price}
