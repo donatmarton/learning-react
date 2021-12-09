@@ -3,12 +3,18 @@ import defaultMeme from "../images/meme.png"
 import memesData from "../memesData"
 
 export default function Meme() {
-  const [meme, setMeme] = React.useState(defaultMeme);
+  const [meme, setMeme] = React.useState({
+    topText: "",
+    bottomText: "",
+    image: defaultMeme
+  });
+  const [allMemeImages, setAllMemeImages] = React.useState(memesData);
   function getMemeImage() {
-    const memesArray = memesData.data.memes;
+    const memesArray = allMemeImages.data.memes;
     const randomIndex = Math.floor(Math.random() * memesArray.length);
-    setMeme(memesArray[randomIndex].url);
-}
+    const url = memesArray[randomIndex].url;
+    setMeme( (prevMeme) => ({...prevMeme, image:url}));
+  }
   return (
     <main>
       <div class='form-row'>
@@ -21,11 +27,11 @@ export default function Meme() {
       <div className="meme">
         <img 
           className="meme-image"
-          src={meme}
+          src={meme.image}
           alt=""
         />
-        <p className="meme-text-top">Shut up</p>
-        <p className="meme-text-bottom">and take my money</p>
+        <p className="meme-text-top">{meme.topText}</p>
+        <p className="meme-text-bottom">{meme.bottomText}</p>
       </div>
     </main>
   )
