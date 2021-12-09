@@ -15,14 +15,42 @@ export default function Meme() {
     const url = memesArray[randomIndex].url;
     setMeme( (prevMeme) => ({...prevMeme, image:url}));
   }
+  function changeText(event) {
+    const {name, value} = event.target
+    setMeme( prevMeme => {
+      return {
+        ...prevMeme, 
+        [name]: value} 
+    })
+  }
   return (
     <main>
-      <div class='form-row'>
-        <input id="first-input" name="first-input" type="text" placeholder="Shut up"/>
-        <input id="second-input" name="second-input" type="text" placeholder="and take my money"/>
+      <div className='form-row'>
+        <input 
+          value={meme.topText} 
+          onChange={changeText} 
+          name="topText" 
+          id="first-input" 
+          type="text" 
+          placeholder="Shut up"
+        />
+        <input 
+          value={meme.bottomText} 
+          onChange={changeText} 
+          name="bottomText" 
+          id="second-input" 
+          type="text" 
+          placeholder="and take my money"
+        />
       </div>
-      <div class='form-row'>
-        <button onClick={getMemeImage} id="get-meme" name="get-meme">Get a new meme image 🖼</button>
+      <div className='form-row'>
+        <button 
+          onClick={getMemeImage} 
+          id="get-meme" 
+          name="get-meme"
+        >
+          Get a new meme image 🖼
+        </button>
       </div>
       <div className="meme">
         <img 
