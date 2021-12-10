@@ -1,20 +1,22 @@
 import React from "react";
 import defaultMeme from "../images/meme.png"
-import memesData from "../memesData"
+
 
 export default function Meme() {
+
   const [meme, setMeme] = React.useState({
     topText: "",
     bottomText: "",
     image: defaultMeme
   });
-  const [allMemeImages, setAllMemeImages] = React.useState(memesData);
+  const [allMemes, setAllMemes] = React.useState(null);
+
   function getMemeImage() {
-    const memesArray = allMemeImages.data.memes;
-    const randomIndex = Math.floor(Math.random() * memesArray.length);
-    const url = memesArray[randomIndex].url;
+    const randomIndex = Math.floor(Math.random() * allMemes.length);
+    const url = allMemes[randomIndex].url;
     setMeme( (prevMeme) => ({...prevMeme, image:url}));
   }
+
   function changeText(event) {
     const {name, value} = event.target
     setMeme( prevMeme => {
@@ -23,6 +25,13 @@ export default function Meme() {
         [name]: value} 
     })
   }
+
+  React.useEffect( () => {
+    fetch("https://api.imgflip.com/get_memes")
+      .then(response => response.json())
+      .then(memes => setAllMemes(memes.data.memes))
+  }, []);
+
   return (
     <main>
       <div className='form-row'>
@@ -32,7 +41,7 @@ export default function Meme() {
           name="topText" 
           id="first-input" 
           type="text" 
-          placeholder="Shut up"
+          placeholder="Top text"
         />
         <input 
           value={meme.bottomText} 
@@ -40,7 +49,7 @@ export default function Meme() {
           name="bottomText" 
           id="second-input" 
           type="text" 
-          placeholder="and take my money"
+          placeholder="Bottom text"
         />
       </div>
       <div className='form-row'>
