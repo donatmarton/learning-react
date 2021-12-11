@@ -1,14 +1,17 @@
 import React from "react"
 import Die from "./components/Die";
+import Confetti from "react-confetti"
 
 function App() {
-  const [dice, setDice] = React.useState(() => {
-    // state initialization
+  const [tenzies, setTenzies] = React.useState(false);
+  const [dice, setDice] = React.useState(generateAllDice());
+
+  function generateAllDice() {
     const randomDieValues = generateRandomDieValues();
     return randomDieValues.map((value, index) => {
       return {id:index, isHeld:false, value:value}
     })
-  });
+  }
   
   function generateRandomDieValues() {
     let dieValues = [];
@@ -47,6 +50,22 @@ function App() {
     })
   }
 
+  function startNewGame() {
+    setDice(generateAllDice());
+    setTenzies(false);
+  }
+
+  React.useEffect( () => {
+    let firstValue = dice[0].value;
+    let isAllSame = dice.every(die => die.value === firstValue);
+    let isAllHeld = dice.every(die => die.isHeld);
+    
+    if (isAllHeld && isAllSame) {
+      setTenzies(true);
+      console.log("congrats")
+    }
+  }, [dice])
+
   return (
     <main className="app">
       <h1 className="title">Tenzies</h1>
@@ -56,10 +75,11 @@ function App() {
       </div>
       <button 
         className="roll-button"
-        onClick={rollDice}
+        onClick={tenzies ? startNewGame : rollDice}
       >
-        Roll
+        {tenzies ? "New Game" : "Roll"}
       </button>
+      {tenzies && <Confetti />}
     </main>
   );
 }
