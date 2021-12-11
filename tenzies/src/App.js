@@ -2,24 +2,54 @@ import React from "react"
 import Die from "./components/Die";
 
 function App() {
-  const [dieValues, setDieValues] = React.useState(generateRandomDice());
+  const [dice, setDice] = React.useState(() => {
+    // state initialization
+    const randomDieValues = generateRandomDieValues();
+    return randomDieValues.map((value, index) => {
+      return {id:index, isHeld:false, value:value}
+    })
+  });
   
-  function generateRandomDice() {
+  function generateRandomDieValues() {
     let dieValues = [];
     for (let i = 0; i < 10; i++) {
-      dieValues.push( Math.floor(Math.random() * 6 + 1) );
+      const randomValue = Math.floor(Math.random() * 6 + 1);
+      dieValues.push( randomValue );
     }
     return dieValues
   }
-  const dieComponents = dieValues.map((dieValue, index) => (
+
+  function toggleHoldDie(dieID) {
+    setDice( (prevDice) => {
+      let newDice = [];
+      for (let die of prevDice) {
+        if (die.id === dieID) {
+          newDice.push( {...die, isHeld:!die.isHeld} )
+        } else {
+          newDice.push(die)
+        }
+      }
+      return newDice;
+    });
+    console.log("toggled", dieID)
+  }
+
+  const dieComponents = dice.map((die) => (
     <Die 
-      value={dieValue}
-      key={index}
+      value={die.value}
+      key={die.id}
+      isSelected={die.isHeld}
+      handleClick={() => toggleHoldDie(die.id)}
     />
   ));
 
   function rollDice() {
-    setDieValues(generateRandomDice());
+    const newDieValues = generateRandomDieValues();
+    setDice( (prevDice) => {
+      return prevDice.map(die => {
+        return die.isHeld ? die : {...die, value:newDieValues[die.id]}
+      })
+    })
   }
 
   return (
