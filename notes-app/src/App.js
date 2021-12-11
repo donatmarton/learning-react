@@ -5,10 +5,6 @@ import { data } from "./data"
 import Split from "react-split"
 import {nanoid} from "nanoid"
 
-/**
- * Challenge: When the user edits a note, reposition
- * it in the list of notes to the top of the list
- */
 
 export default function App() {
   const [notes, setNotes] = React.useState(
@@ -42,6 +38,13 @@ export default function App() {
     })
   }
   
+  function deleteNote(event, noteId) {
+    event.stopPropagation();
+    setNotes(oldNotes => oldNotes.filter(note => note.id !== noteId));
+    setCurrentNoteId((notes[0] && notes[0].id) || "" );
+  }
+
+
   function findCurrentNote() {
     return notes.find(note => {
       return note.id === currentNoteId
@@ -67,6 +70,7 @@ export default function App() {
             currentNote={findCurrentNote()}
             setCurrentNoteId={setCurrentNoteId}
             newNote={createNewNote}
+            deleteNote={deleteNote}
           />
           {
             currentNoteId && 
