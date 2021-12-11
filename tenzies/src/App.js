@@ -21,17 +21,12 @@ function App() {
 
   function toggleHoldDie(dieID) {
     setDice( (prevDice) => {
-      let newDice = [];
-      for (let die of prevDice) {
-        if (die.id === dieID) {
-          newDice.push( {...die, isHeld:!die.isHeld} )
-        } else {
-          newDice.push(die)
-        }
-      }
-      return newDice;
+      return prevDice.map((die) => (
+        die.id === dieID 
+        ? {...die, isHeld:!die.isHeld} 
+        : die
+      ))
     });
-    console.log("toggled", dieID)
   }
 
   const dieComponents = dice.map((die) => (
