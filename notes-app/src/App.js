@@ -6,9 +6,8 @@ import Split from "react-split"
 import {nanoid} from "nanoid"
 
 /**
- * Challenge: Try to figure out a way to display only the 
- * first line of note.body as the note summary in the
- * sidebar.
+ * Challenge: When the user edits a note, reposition
+ * it in the list of notes to the top of the list
  */
 
 export default function App() {
@@ -30,11 +29,17 @@ export default function App() {
   }
   
   function updateNote(text) {
-    setNotes(oldNotes => oldNotes.map(oldNote => {
-      return oldNote.id === currentNoteId
-        ? { ...oldNote, body: text }
-        : oldNote
-    }))
+    setNotes(oldNotes => {
+      const newNotes = [];
+      for (let oldNote of oldNotes) {
+        if (oldNote.id === currentNoteId) {
+          newNotes.unshift({ ...oldNote, body: text });
+        } else {
+          newNotes.push(oldNote);
+        }
+      }
+      return newNotes;
+    })
   }
   
   function findCurrentNote() {
