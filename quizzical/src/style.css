@@ -107,7 +107,7 @@ button:disabled {
 }
 .quiz--answer-radios input:checked + label {
   background-color: #D6DBF5;
-  border: none;
+  border-color: transparent;
 }
 
 hr {
