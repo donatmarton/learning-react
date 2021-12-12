@@ -16,13 +16,23 @@ export default function QuizScreen() {
       .then( triviaResponse =>  {
         const data = triviaResponse.results;
         let dataWithId = data.map( questionData => {
+          const correctAnswer = {
+            text:questionData.correct_answer, 
+            id:nanoid() 
+          };
+          const incorrectAnswers = questionData.incorrect_answers.map( badAnswer => (
+            {
+              text:badAnswer, 
+              id:nanoid()
+            }
+          ));
+          const allAnswers = incorrectAnswers.concat(correctAnswer);
+          const shuffledAnswers = knuthShuffle(allAnswers);
           return {
             ...questionData, 
             id:nanoid(),
-            correct_answer:{text:questionData.correct_answer, id:nanoid()},
-            incorrect_answers:[questionData.incorrect_answers.map( badAnswer => (
-              {text:badAnswer, id:nanoid()}
-            ))]
+            correctAnswerId: correctAnswer.id,
+            answers: shuffledAnswers,
           }
         });
         setQuestions(dataWithId)
@@ -36,14 +46,12 @@ export default function QuizScreen() {
   }
 
   const questionElements = questions.map( (question) => {
-    let allAnswers = [].concat(...question.incorrect_answers, [question.correct_answer]);
-    const shuffledAnswers = knuthShuffle(allAnswers);
     return (
       <QuizQuestion 
         key={question.id}
         id={question.id}
         question={question.question}
-        answers={shuffledAnswers}
+        answers={question.answers}
         selectedAnswerValue={userAnswers[question.id]}
         handleChange={saveUserAnswer}
       />
