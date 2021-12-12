@@ -4,10 +4,13 @@ import { knuthShuffle } from "knuth-shuffle";
 import { nanoid } from "nanoid"
 
 
-
 export default function QuizScreen() {
   const [questions, setQuestions] = React.useState([]);
   const [userAnswers, setUserAnswers] = React.useState({});
+  const [result, setResult] = React.useState( {
+    evaluated: false,
+    correct: null,
+  });
 
   React.useEffect( () => {
     const triviaApiUrl = "https://opentdb.com/api.php?amount=5";
@@ -17,12 +20,12 @@ export default function QuizScreen() {
         const data = triviaResponse.results;
         let dataWithId = data.map( questionData => {
           const correctAnswer = {
-            text:questionData.correct_answer, 
-            id:nanoid() 
+            text:questionData.correct_answer,
+            id:nanoid()
           };
           const incorrectAnswers = questionData.incorrect_answers.map( badAnswer => (
             {
-              text:badAnswer, 
+              text:badAnswer,
               id:nanoid()
             }
           ));
@@ -45,6 +48,23 @@ export default function QuizScreen() {
     setUserAnswers( prevAnswers => ({...prevAnswers, [questionId]:answerId}));
   }
 
+  function evaluateQuiz(event) {
+    event.preventDefault();
+
+    const correct = questions.reduce( (correctAnswers, question) => {
+      if (userAnswers[question.id] === question.correctAnswerId) {
+        return ++correctAnswers;
+      } else {
+        return correctAnswers;
+      }
+    }, 0)
+
+    setResult( {
+      evaluated: true,
+      correct: correct,
+    });
+  }
+
   const questionElements = questions.map( (question) => {
     return (
       <QuizQuestion 
@@ -54,18 +74,25 @@ export default function QuizScreen() {
         answers={question.answers}
         selectedAnswerValue={userAnswers[question.id]}
         handleChange={saveUserAnswer}
+        displayCorrectId={result.evaluated ? question.correctAnswerId : null}
       />
     )
   });
 
   return (
     <div className="screen quiz--container">
-      <form>
+      <form onSubmit={evaluateQuiz}>
         {questionElements}
 
         <div className="quiz--controls">
-          <p className="quiz--result">You scored 3/5 correct answers</p>
-          <button className="quiz--control-button" disabled>
+          <p className="quiz--result">
+            {result.evaluated ? 
+              `You scored ${result.correct}/5 correct answers`
+              :
+              'Answer all questions'
+            }
+          </p>
+          <button className="quiz--control-button">
             Play again
           </button>
         </div>
