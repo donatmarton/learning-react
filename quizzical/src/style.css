@@ -30,6 +30,12 @@ button{
   cursor: pointer;
   padding: 15px 30px;
 }
+button:disabled {
+  background-color: transparent;
+  /* color: #4D5B9E; */
+  color: #8b90af;
+  border: 1px solid #8b90af;
+}
 
 /* Title screen */
 
@@ -57,7 +63,8 @@ button{
 
 .quiz--controls {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 25px;
 }
 .quiz--result {
@@ -69,22 +76,26 @@ button{
 
 .quiz--question {
   border: 0;
-  margin: 0;
+  margin: 0 15px;
   padding: 0;
 }
 .quiz--question-text {
   font-size: 1.3rem;
-  margin: 10px 0;
+  margin: 5px 0;
 }
 
 .quiz--answer-radios {
   display: flex;
-  gap: 10px;
+  flex-wrap: wrap;
+  margin: 10px 0 0px 0;
 }
-.quiz--answer-radios > input {
+.quiz--answer-single-radio {
+  padding: 10px;
+}
+.quiz--answer-radios input {
   display: none;
 }
-.quiz--answer-radios > label {
+.quiz--answer-radios label {
   cursor: pointer;
   font-family: 'Inter', sans-serif;
   font-weight: 600;
@@ -93,7 +104,7 @@ button{
   border-radius: 10px;
   padding: .35rem 1.5rem; 
 }
-.quiz--answer-radios>input:checked + label {
+.quiz--answer-radios input:checked + label {
   background-color: #D6DBF5;
   border: none;
 }
@@ -101,4 +112,5 @@ button{
 hr {
   color: #dbdef075;
   margin: 15px;
+
 }

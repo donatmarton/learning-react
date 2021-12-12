@@ -1,53 +1,35 @@
 import React from "react";
+import parse from "html-react-parser";
+
 
 export default function QuizQuestion(props) {
+
+  const answerElements = props.answers.map( (answer) => {
+    return (
+      <div className="quiz--answer-single-radio" key={answer.id} >
+        <input 
+          required
+          type="radio"
+          id={answer.id}
+          name={props.id}
+          value={answer.id}
+          // checked={}
+          // onChange={}
+        />
+        <label htmlFor={answer.id}>{parse(answer.text)}</label>
+      </div>
+    )
+  });
+
   return (
-    <div className="quiz--question">
+    <>
       <fieldset className="quiz--question">
-        <legend className="quiz--question-text">How would one say goodbye in spanish?How would one say goodbye in spanish?</legend>
+        <legend className="quiz--question-text" >{parse(props.question)}</legend>
         <div className="quiz--answer-radios">
-          <input 
-            type="radio"
-            id={"question"+props.id+"answer1"}
-            name={"question"+props.id}
-            value="unemployed"
-            // checked={}
-            // onChange={}
-          />
-          <label htmlFor={"question"+props.id+"answer1"}>Adiós</label>
-
-          <input 
-            type="radio"
-            id={"question"+props.id+"answer2"}
-            name={"question"+props.id}
-            value="unemployed"
-            // checked={}
-            // onChange={}
-          />
-          <label htmlFor={"question"+props.id+"answer2"}>Hola</label>
-
-          <input 
-            type="radio"
-            id={"question"+props.id+"answer3"}
-            name={"question"+props.id}
-            value="unemployed"
-            // checked={}
-            // onChange={}
-          />
-          <label htmlFor={"question"+props.id+"answer3"}>Au revoir</label>
-
-          <input 
-            type="radio"
-            id={"question"+props.id+"answer4"}
-            name={"question"+props.id}
-            value="unemployed"
-            // checked={}
-            // onChange={}
-          />
-          <label htmlFor={"question"+props.id+"answer4"}>Salir</label>
+          {answerElements}
         </div>
       </fieldset> 
       <hr/>
-    </div> 
+    </>
   )
 }
