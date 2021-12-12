@@ -7,6 +7,7 @@ import { nanoid } from "nanoid"
 
 export default function QuizScreen() {
   const [questions, setQuestions] = React.useState([]);
+  const [userAnswers, setUserAnswers] = React.useState({});
 
   React.useEffect( () => {
     const triviaApiUrl = "https://opentdb.com/api.php?amount=5";
@@ -25,9 +26,14 @@ export default function QuizScreen() {
           }
         });
         setQuestions(dataWithId)
-        console.log( dataWithId )
       })
   }, [])
+
+  function saveUserAnswer(event) {
+    const answerId = event.target.value;
+    const questionId = event.target.name;
+    setUserAnswers( prevAnswers => ({...prevAnswers, [questionId]:answerId}));
+  }
 
   const questionElements = questions.map( (question) => {
     let allAnswers = [].concat(...question.incorrect_answers, [question.correct_answer]);
@@ -38,6 +44,8 @@ export default function QuizScreen() {
         id={question.id}
         question={question.question}
         answers={shuffledAnswers}
+        selectedAnswerValue={userAnswers[question.id]}
+        handleChange={saveUserAnswer}
       />
     )
   });

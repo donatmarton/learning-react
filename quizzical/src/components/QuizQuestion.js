@@ -13,8 +13,8 @@ export default function QuizQuestion(props) {
           id={answer.id}
           name={props.id}
           value={answer.id}
-          // checked={}
-          // onChange={}
+          checked={props.selectedAnswerValue === answer.id}
+          onChange={props.handleChange}
         />
         <label htmlFor={answer.id}>{parse(answer.text)}</label>
       </div>
