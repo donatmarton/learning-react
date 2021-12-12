@@ -13,6 +13,10 @@ export default function QuizScreen() {
   });
 
   React.useEffect( () => {
+    requestNewQuestions();
+  }, [])
+
+  function requestNewQuestions() {
     const triviaApiUrl = "https://opentdb.com/api.php?amount=5";
     fetch(triviaApiUrl)
       .then( response => response.json())
@@ -38,9 +42,9 @@ export default function QuizScreen() {
             answers: shuffledAnswers,
           }
         });
-        setQuestions(dataWithId)
+        setQuestions(dataWithId);
       })
-  }, [])
+  }
 
   function saveUserAnswer(event) {
     const answerId = event.target.value;
@@ -48,9 +52,27 @@ export default function QuizScreen() {
     setUserAnswers( prevAnswers => ({...prevAnswers, [questionId]:answerId}));
   }
 
-  function evaluateQuiz(event) {
+  function handleSubmission(event) {
     event.preventDefault();
 
+    if (result.evaluated) {
+      startNewQuiz();
+    } else {
+      evaluateQuiz();
+    }
+  }
+
+  function startNewQuiz() {
+    setQuestions( [] );
+    requestNewQuestions();
+    setResult( {
+      evaluated: false,
+      correct: null,
+    });
+    setUserAnswers( {} );
+  }
+
+  function evaluateQuiz() {
     const correct = questions.reduce( (correctAnswers, question) => {
       if (userAnswers[question.id] === question.correctAnswerId) {
         return ++correctAnswers;
@@ -81,7 +103,7 @@ export default function QuizScreen() {
 
   return (
     <div className="screen quiz--container">
-      <form onSubmit={evaluateQuiz}>
+      <form onSubmit={handleSubmission}>
         {questionElements}
 
         <div className="quiz--controls">
@@ -93,7 +115,7 @@ export default function QuizScreen() {
             }
           </p>
           <button className="quiz--control-button">
-            Play again
+            {result.evaluated ? 'Play again' : 'Check answers'}
           </button>
         </div>
       </form>
