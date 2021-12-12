@@ -3,7 +3,7 @@ import QuizQuestion from "./QuizQuestion";
 
 export default function QuizScreen() {
   return (
-    <div className="quiz--container">
+    <div className="screen quiz--container">
       <QuizQuestion />
       <QuizQuestion />
       <QuizQuestion />
