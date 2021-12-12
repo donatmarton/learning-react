@@ -5,11 +5,11 @@ import parse from "html-react-parser";
 export default function QuizQuestion(props) {
   const correctAnswerStyle = {
     backgroundColor: "#94D7A2",
-    border: "none",
+    borderColor: "transparent",
   }
   const incorrectAnswerStyle = {
     backgroundColor: "#F8BCBC",
-    border: "none",
+    borderColor: "transparent",
   }
   const disabledButtonStyle = {
     borderColor: "#8b90af",
