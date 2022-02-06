@@ -11,12 +11,14 @@ export default function QuizScreen() {
     evaluated: false,
     correct: null,
   });
+  const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect( () => {
     requestNewQuestions();
   }, [])
 
   function requestNewQuestions() {
+    setIsLoading(true);
     const triviaApiUrl = "https://opentdb.com/api.php?amount=5";
     fetch(triviaApiUrl)
       .then( response => response.json())
@@ -43,6 +45,7 @@ export default function QuizScreen() {
           }
         });
         setQuestions(dataWithId);
+        setIsLoading(false);
       })
   }
 
@@ -103,22 +106,25 @@ export default function QuizScreen() {
 
   return (
     <div className="screen quiz--container">
-      <form onSubmit={handleSubmission}>
-        {questionElements}
-
-        <div className="quiz--controls">
-          <p className="quiz--result">
-            {result.evaluated ? 
-              `You scored ${result.correct}/5 correct answers`
-              :
-              'Answer all questions'
-            }
-          </p>
-          <button className="quiz--control-button">
-            {result.evaluated ? 'Play again' : 'Check answers'}
-          </button>
-        </div>
-      </form>
+      {isLoading ?
+        <p>Loading your questions...</p>
+      :
+        <form onSubmit={handleSubmission}>
+          {questionElements}
+          <div className="quiz--controls">
+            <p className="quiz--result">
+              {result.evaluated ? 
+                `You scored ${result.correct}/5 correct answers`
+                :
+                'Answer all questions'
+              }
+            </p>
+            <button className="quiz--control-button">
+              {result.evaluated ? 'Play again' : 'Check answers'}
+            </button>
+          </div>
+        </form>
+      }
     </div>
   )
 }
